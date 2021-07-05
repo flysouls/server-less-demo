@@ -1,0 +1,56 @@
+org: '1256271340'
+app: my-next-0
+stage: dev
+component: nuxtjs
+name: nuxtjs-F1GDNdKRs
+inputs:
+  src:
+    hook: npm run build
+    dist: ./
+    exclude:
+      - .env
+      - node_modules/**
+    src: ./
+  region: ap-guangzhou
+  runtime: Nodejs10.15
+  apigatewayConf:
+    protocols:
+      - http
+      - https
+    environment: release
+    serviceTimeout: 60
+    customDomains:
+      - domain: flysoul.cool
+        certificateId: jM0p82vE
+        isDefaultMapping: false
+        pathMappingSet:
+          - path: /
+            environment: release
+        protocols:
+          - http
+          - https
+    autoCreateDns: true
+  staticConf:
+    cosConf:
+      replace: true
+      bucket: my-next-0-dev-1256271340
+      acl:
+        permissions: public-read
+      sources:
+        - src: .nuxt/dist/client
+          targetDir: /
+        - src: static
+          targetDir: /
+    cdnConf:
+      domain: flysoul.cool
+      https:
+        certId: jM0p82vE
+      autoCreateDns: true
+  isAutoCiDeploy: false
+  functionConf:
+    eip: true
+    timeout: 3
+    memorySize: 128
+  layers:
+    - name: '${output:${stage}:${app}:my-next-0-layer.name}'
+      version: '${output:${stage}:${app}:my-next-0-layer.version}'
